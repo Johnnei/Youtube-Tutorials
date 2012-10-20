@@ -32,7 +32,7 @@ but for readability the standard is: group in four-bit (nibble)
 0000 0000
 so well start checking our value:
 Does 128 fit in 67? No: We'll write down a zero: 0xxx xxxx
-Does 64 fit in 64?: Yes: We'll write down an one: 01xx xxxx, We'll also subtract 64 from 67: remaining with 3
+Does 64 fit in 67?: Yes: We'll write down an one: 01xx xxxx, We'll also subtract 64 from 67: remaining with 3
 Does 32 fit in 3?: No: We'll write down a zero: 010x xxxx
 Does 16 fit in 3?: No: We'll write down a zero: 0100 xxxx
 Does 8 fit in 3?: No: We'll write down a zero: 0100 0xxx
