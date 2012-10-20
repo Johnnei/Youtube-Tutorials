@@ -1,0 +1,6 @@
+Chip 8 Instruction Set: 
+http://en.wikipedia.org/wiki/CHIP-8#Opcode_table
+http://devernay.free.fr/hacks/chip8/C8TECH10.HTM
+
+Used Libraries:
+None
