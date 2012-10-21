@@ -83,17 +83,38 @@ Legenda: [NAME (JAVA OPERATOR)]
 ---- ---- OR
 0111 1011 (123)
 
+True/False Schema:
+A | B | Result
+0 | 0 | 0
+1 | 0 | 1
+0 | 1 | 1
+1 | 1 | 1
+
 [AND Operation (&)]
 0010 1001 (41)
 0101 1010 (90)
 ---- ---- AND
 0000 1000 (8)
 
+True/False Schema
+A | B | Result
+0 | 0 | 0
+1 | 0 | 0
+0 | 1 | 0
+1 | 1 | 1
+
 [XOR (Exclusive OR) Operation (^)]
 0010 1001 (41)
 0101 1010 (90)
 ---- ---- XOR
 0111 0011 (115)
+
+True/False Schema
+A | B | Result
+0 | 0 | 0
+1 | 0 | 1
+0 | 1 | 1
+1 | 1 | 0
 
 [Unary (~)] (Invert)
 0010 1001 (41)
