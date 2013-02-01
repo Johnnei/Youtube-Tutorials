@@ -16,22 +16,32 @@ public class Z80 {
 	public static final int REGISTER_H = 5;
 	public static final int REGISTER_L = 6;
 	public static final int REGISTER_F = 7;
+	
+	public static final int NZ = 0;
+	public static final int Z = 1;
+	public static final int NC = 2;
+	public static final int C = 3;
 
 	/**
-	 * The bit in {@link #REGISTER_F} that represents if the last math operation result was: 0
+	 * The bit in {@link #REGISTER_F} that represents if the last math operation
+	 * result was: 0
 	 */
 	public static final int FLAG_ZERO = 7;
 	/**
-	 * The bit in {@link #REGISTER_F} that represents if the last math operation was a subtraction
+	 * The bit in {@link #REGISTER_F} that represents if the last math operation
+	 * was a subtraction
 	 */
 	public static final int FLAG_SUBTRACT = 6;
 	/**
-	 * The bit in {@link #REGISTER_F} that represents if the last math operation caused a carry on the lower nibble (result >= 16)
+	 * The bit in {@link #REGISTER_F} that represents if the last math operation
+	 * caused a carry on the lower nibble (result >= 16)
 	 */
 	public static final int FLAG_HALF_CARRY = 5;
 	/**
-	 * The bit in {@link #REGISTER_F} that represents if the last math operation caused a carry (result > 255)<Br/>
-	 * This bit is also set of {@link #REGISTER_A} is the smaller value during the CP Instruction
+	 * The bit in {@link #REGISTER_F} that represents if the last math operation
+	 * caused a carry (result > 255)<Br/>
+	 * This bit is also set of {@link #REGISTER_A} is the smaller value during
+	 * the CP Instruction
 	 */
 	public static final int FLAG_CARRY = 4;
 	// END FINAL
@@ -73,7 +83,9 @@ public class Z80 {
 	 */
 	private char sp;
 	/**
-	 * The ProgramCounter
+	 * The ProgramCounter<br/>
+	 * The PC is being initiated on startup to the position: 0x100<br/>
+	 * At that location is commenly a jump and a nop
 	 */
 	private char pc;
 
@@ -86,12 +98,13 @@ public class Z80 {
 		display = new byte[23040];
 		memory = new char[65535];
 		register = new char[8];
-		pc = 0x0;
+		pc = 0x100;
 		sp = 0xFFFE;
 	}
 
 	/**
-	 * Processes a single opcode and returns the amount of "cycles" it took to process it
+	 * Processes a single opcode and returns the amount of "cycles" it took to
+	 * process it
 	 * 
 	 * @return The amount of cycles this operation took
 	 */
@@ -100,87 +113,111 @@ public class Z80 {
 		int opcode = 0x0;
 		switch (opcode) {
 		// PUSH n
-			case 0xF5: { // PUSH AF
-				push((byte) register[REGISTER_A]);
-				push((byte) register[REGISTER_F]);
-				pc += 1;
-				return 16;
-			}
+		case 0xF5: { // PUSH AF
+			push((byte) register[REGISTER_A]);
+			push((byte) register[REGISTER_F]);
+			pc += 1;
+			return 16;
+		}
 
-			case 0xC5: { // PUSH BC
-				push((byte) register[REGISTER_B]);
-				push((byte) register[REGISTER_C]);
-				pc += 1;
-				return 16;
-			}
+		case 0xC5: { // PUSH BC
+			push((byte) register[REGISTER_B]);
+			push((byte) register[REGISTER_C]);
+			pc += 1;
+			return 16;
+		}
 
-			case 0xD5: { // PUSH DE
-				push((byte) register[REGISTER_D]);
-				push((byte) register[REGISTER_E]);
-				pc += 1;
-				return 16;
-			}
+		case 0xD5: { // PUSH DE
+			push((byte) register[REGISTER_D]);
+			push((byte) register[REGISTER_E]);
+			pc += 1;
+			return 16;
+		}
 
-			case 0xE5: { // PUSH HL
-				push((byte) register[REGISTER_H]);
-				push((byte) register[REGISTER_L]);
-				pc += 1;
-				return 16;
-			}
+		case 0xE5: { // PUSH HL
+			push((byte) register[REGISTER_H]);
+			push((byte) register[REGISTER_L]);
+			pc += 1;
+			return 16;
+		}
 
-			// POP nn
-			case 0xF1: { // POP AF
-				register[REGISTER_F] = (char) pop();
-				register[REGISTER_A] = (char) pop();
-				pc += 1;
-				return 12;
-			}
+		// POP nn
+		case 0xF1: { // POP AF
+			register[REGISTER_F] = (char) pop();
+			register[REGISTER_A] = (char) pop();
+			pc += 1;
+			return 12;
+		}
 
-			case 0xC1: { // POP BC
-				register[REGISTER_C] = (char) pop();
-				register[REGISTER_B] = (char) pop();
-				pc += 1;
-				return 12;
-			}
+		case 0xC1: { // POP BC
+			register[REGISTER_C] = (char) pop();
+			register[REGISTER_B] = (char) pop();
+			pc += 1;
+			return 12;
+		}
 
-			case 0xD1: { // POP DE
-				register[REGISTER_E] = (char) pop();
-				register[REGISTER_D] = (char) pop();
-				pc += 1;
-				return 12;
-			}
+		case 0xD1: { // POP DE
+			register[REGISTER_E] = (char) pop();
+			register[REGISTER_D] = (char) pop();
+			pc += 1;
+			return 12;
+		}
 
-			case 0xE1: { // POP HL
-				register[REGISTER_L] = (char) pop();
-				register[REGISTER_H] = (char) pop();
-				pc += 1;
-				return 12;
-			}
+		case 0xE1: { // POP HL
+			register[REGISTER_L] = (char) pop();
+			register[REGISTER_H] = (char) pop();
+			pc += 1;
+			return 12;
+		}
 
-			// CALL
-			case 0xCD: { // CALL nn
-				int nn = memory[pc + 1] | (memory[pc + 2] << 8);
-				call(nn);
-				return 12;
-			}
+		// CALL
+		case 0xCD: { // CALL nn
+			int nn = memory[pc + 1] | (memory[pc + 2] << 8);
+			call(nn);
+			return 12;
+		}
+		
+		// JUMP
+		case 0xC3: { //JMP nn
+			return 12;
+		}
+		
+		case 0xC2: { //JMP NZ, nn
+			return 12;
+		}
+		
+		case 0xCA: { //JMP Z, nn
+			return 12;
+		}
+		
+		case 0xD2: { //JMP NC, nn
+			return 12;
+		}
+		
+		case 0xDA: { //JMP C, nn
+			return 12;
+		}
 
-			// RETURN
-			case 0xC9: { // RET
-				int nn = pop() | (pop() << 8);
-				jump(nn);
-				return 8;
-			}
+		// RETURN
+		case 0xC9: { // RET
+			int nn = pop() | (pop() << 8);
+			jump(nn);
+			return 8;
+		}
 
-			default:
-				return 4;
+		default:
+			return 4;
 		}
 	}
 
 	/**
 	 * Merges two registers into the 16-bit value
 	 * 
-	 * @param leftRegister The index of the left byte (upper 8 bits) register (A, B, D or H)
-	 * @param rightRegister The index of the right byte (lower 8 bits) register
+	 * @param leftRegister
+	 *            The index of the left byte (upper 8 bits) register (A, B, D or
+	 *            H)
+	 * @param rightRegister
+	 *            The index of the right byte (lower 8 bits) register
 	 * @return The 16 bit register value
 	 */
 	private int registerPair(int leftRegister, int rightRegister) {
@@ -191,7 +228,8 @@ public class Z80 {
 	 * Call a specific address<br/>
 	 * Stores the next operation on the stack
 	 * 
-	 * @param nn The address to jump to
+	 * @param nn
+	 *            The address to jump to
 	 */
 	private void call(int nn) {
 		int newAddress = pc + 1;
@@ -201,9 +239,26 @@ public class Z80 {
 	}
 
 	/**
+	 * Jumps to a given address if the condition is true<br/>
+	 * <br/>
+	 * The possible conditions:<br/>
+	 * cc = NZ, Jump if Z flag is reset.<br/>
+	 * cc = Z, Jump if Z flag is set.<br/>
+	 * cc = NC, Jump if C flag is reset.<br/>
+	 * cc = C, Jump if C flag is set.
+	 * 
+	 * @param cc Defines which condition we are being told to check
+	 * @param nn The location to jump to
+	 */
+	private void jump(int cc, int nn) {
+		// TODO Jumping with arguments
+	}
+
+	/**
 	 * Jumps to the given address
 	 * 
-	 * @param nn The address to jump to
+	 * @param nn
+	 *            The address to jump to
 	 */
 	private void jump(int nn) {
 		pc = (char) nn;
@@ -221,7 +276,8 @@ public class Z80 {
 	/**
 	 * Pushes a byte onto the stack
 	 * 
-	 * @param n The byte to be pushed
+	 * @param n
+	 *            The byte to be pushed
 	 */
 	private void push(byte n) {
 		memory[sp] = (char) n;
@@ -265,7 +321,8 @@ public class Z80 {
 	 * Bit 1 - P11 Input Left or Button B (0=Pressed) (Read Only)<br/>
 	 * Bit 0 - P10 Input Right or Button A (0=Pressed) (Read Only)<br/>
 	 * 
-	 * @param b The key states
+	 * @param b
+	 *            The key states
 	 */
 	public void setKeys(byte b) {
 		memory[0xFF00] = (char) b;
@@ -274,7 +331,8 @@ public class Z80 {
 	/**
 	 * Loads the cartridge into the memory
 	 * 
-	 * @param file The location of the cartrigde
+	 * @param file
+	 *            The location of the cartrigde
 	 */
 	public void loadCartridge(String file) {
 		DataInputStream input = null;
