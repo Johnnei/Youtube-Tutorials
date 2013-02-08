@@ -103,8 +103,7 @@ public class Z80 {
 	 * @return The amount of cycles this operation took
 	 */
 	public int run() {
-		// TODO Fetch
-		int opcode = 0x0;
+		int opcode = memory[pc];
 		switch (opcode) {
 		// PUSH n
 			case 0xF5: { // PUSH AF
@@ -214,6 +213,32 @@ public class Z80 {
 				jump(nn);
 				return 8;
 			}
+			
+			// LOAD
+			case 0x7F: { //LD A, A
+				load(REGISTER_A, REGISTER_A);
+				return 4;
+			}
+			
+			case 0x7E: { //LD A, HL 
+				load(REGISTER_A, REGISTER_H, REGISTER_L);
+				return 8;
+			}
+			
+			// ADD
+			case 0x80: {
+				add(REGISTER_B);
+				return 4;
+			}
+			
+			case 0x81: {
+				add(REGISTER_C);
+				return 4;
+			}
+			case 0x87: { //ADD A,n
+				add(REGISTER_A);
+				return 4;
+			}
 
 			// RETURN
 			case 0xC9: { // RET
@@ -225,6 +250,55 @@ public class Z80 {
 			default:
 				return 4;
 		}
+	}
+	
+	/**
+	 * Adds the value from <tt>register[r]</tt> to {@link #REGISTER_A} and stores it into {@link #REGISTER_A}<br/>
+	 * {@link #FLAG_SUBTRACT} will be reset as we dont subtract<br/>
+	 * {@link #FLAG_HALF_CARRY} Will be set if half carry occurs<br/>
+	 * {@link #FLAG_CARRY} Will be set if full carry occurs<br/>
+	 * {@link #FLAG_ZERO} Will be set if the result is zero
+	 * @param r The register to add to {@link #REGISTER_A}
+	 */
+	private void add(int r) {
+		register[REGISTER_A] += register[r];
+		register[REGISTER_F] &= ~(1 << FLAG_SUBTRACT);
+		if(register[REGISTER_A] == 0) {
+			register[REGISTER_F] |= (1 << FLAG_ZERO);
+		}
+		if(register[REGISTER_A] > 15) {
+			register[REGISTER_F] |= (1 << FLAG_HALF_CARRY);
+		}
+		if(register[REGISTER_A] > 255) {
+			register[REGISTER_F] |= (1 << FLAG_CARRY);
+		}
+	}
+	
+	/**
+	 * Puts the value into A
+	 * @param value The value to put into a
+	 */
+	private void load(int value) {
+		register[REGISTER_A] = (char)value;
+	}
+	
+	/**
+	 * Puts the value from combined register <tt>register[r2left << 8 | r2right]</tt> into <tt>register[r1]</tt>
+	 * @param r1 The register to put the value into 
+	 * @param r2left The register for the upper 8 bits of the value
+	 * @param r2right The register for the lower 8 bits of the value
+	 */
+	private void load(int r1, int r2left, int r2right) {
+		register[r1] = (char)registerPair(r2left, r2right);
+	}
+	
+	/**
+	 * Puts the value from <tt>register[r2]</tt> into <tt>register[r1]</tt>
+	 * @param r1 The register to put the value into
+	 * @param r2 The register to read the value from
+	 */
+	private void load(int r1, int r2) {
+		register[r1] = register[r2];
 	}
 
 	/**
