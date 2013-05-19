@@ -7,6 +7,7 @@ import java.io.IOException;
 
 import chip.opcode.IOpcode;
 import chip.opcode.Opcode00NOP;
+import chip.opcode.Opcode1000Stop;
 
 public class Z80 {
 
@@ -82,8 +83,29 @@ public class Z80 {
 			case 0x00:
 				return new Opcode00NOP();
 				
+			case 0x10:
+				//16 Bit Opcode
+				
+				switch(memory[pc + 1]) {
+					case 0x00: //STOP
+						return new Opcode1000Stop();
+						
+						default:
+							throw new RuntimeException("Invalid ROM (0x10 Case) (0x" + Integer.toHexString(pc) + ")");
+				}
+				
+			case 0xCB:
+				//16 Bit Opcode
+				
+				switch(memory[pc + 1]) {
+					//TODO Implement 0xCB Opcodes
+				}
+				
+				throw new RuntimeException("Invalid ROM (0xCB Case) (0x" + Integer.toHexString(pc) + ")");
+				
+				
 				default:
-					System.out.println("Unprocessed opcode " + Integer.toHexString(memory[pc]).toUpperCase() + ", Processing as NOP");
+					System.out.println("Unprocessed opcode 0x" + Integer.toHexString(memory[pc]).toUpperCase() + ", Processing as NOP");
 					return new Opcode00NOP();
 		}
 	}
