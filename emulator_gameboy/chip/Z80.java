@@ -5,41 +5,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
+import chip.opcode.IOpcode;
+import chip.opcode.Opcode00NOP;
+
 public class Z80 {
-
-	// FINAL data
-	public static final int REGISTER_A = 0;
-	public static final int REGISTER_B = 1;
-	public static final int REGISTER_C = 2;
-	public static final int REGISTER_D = 3;
-	public static final int REGISTER_E = 4;
-	public static final int REGISTER_H = 5;
-	public static final int REGISTER_L = 6;
-	public static final int REGISTER_F = 7;
-
-	public static final int NZ = 0;
-	public static final int Z = 1;
-	public static final int NC = 2;
-	public static final int C = 3;
-
-	/**
-	 * The bit in {@link #REGISTER_F} that represents if the last math operation result was: 0
-	 */
-	public static final int FLAG_ZERO = 7;
-	/**
-	 * The bit in {@link #REGISTER_F} that represents if the last math operation was a subtraction
-	 */
-	public static final int FLAG_SUBTRACT = 6;
-	/**
-	 * The bit in {@link #REGISTER_F} that represents if the last math operation caused a carry on the lower nibble (result >= 16)
-	 */
-	public static final int FLAG_HALF_CARRY = 5;
-	/**
-	 * The bit in {@link #REGISTER_F} that represents if the last math operation caused a carry (result > 255)<Br/>
-	 * This bit is also set of {@link #REGISTER_A} is the smaller value during the CP Instruction
-	 */
-	public static final int FLAG_CARRY = 4;
-	// END FINAL
 
 	/**
 	 * The 144x160 pixel 4 colors display
@@ -103,202 +72,20 @@ public class Z80 {
 	 * @return The amount of cycles this operation took
 	 */
 	public int run() {
-		int opcode = memory[pc];
-		switch (opcode) {
-		// PUSH n
-			case 0xF5: { // PUSH AF
-				push((byte) register[REGISTER_A]);
-				push((byte) register[REGISTER_F]);
-				pc += 1;
-				return 16;
-			}
-
-			case 0xC5: { // PUSH BC
-				push((byte) register[REGISTER_B]);
-				push((byte) register[REGISTER_C]);
-				pc += 1;
-				return 16;
-			}
-
-			case 0xD5: { // PUSH DE
-				push((byte) register[REGISTER_D]);
-				push((byte) register[REGISTER_E]);
-				pc += 1;
-				return 16;
-			}
-
-			case 0xE5: { // PUSH HL
-				push((byte) register[REGISTER_H]);
-				push((byte) register[REGISTER_L]);
-				pc += 1;
-				return 16;
-			}
-
-			// POP nn
-			case 0xF1: { // POP AF
-				register[REGISTER_F] = (char) pop();
-				register[REGISTER_A] = (char) pop();
-				pc += 1;
-				return 12;
-			}
-
-			case 0xC1: { // POP BC
-				register[REGISTER_C] = (char) pop();
-				register[REGISTER_B] = (char) pop();
-				pc += 1;
-				return 12;
-			}
-
-			case 0xD1: { // POP DE
-				register[REGISTER_E] = (char) pop();
-				register[REGISTER_D] = (char) pop();
-				pc += 1;
-				return 12;
-			}
-
-			case 0xE1: { // POP HL
-				register[REGISTER_L] = (char) pop();
-				register[REGISTER_H] = (char) pop();
-				pc += 1;
-				return 12;
-			}
-
-			// CALL
-			case 0xCD: { // CALL nn
-				int nn = memory[pc + 1] | (memory[pc + 2] << 8);
-				call(nn);
-				return 12;
-			}
-
-			// JUMP
-			case 0xC3: { // JMP nn
-				int nn = memory[pc + 1] | (memory[pc + 2] << 8);
-				jump(nn);
-				return 12;
-			}
-
-			case 0xC2: { // JMP NZ, nn
-				int nn = memory[pc + 1] | (memory[pc + 2] << 8);
-				jump(NZ, nn);
-				return 12;
-			}
-
-			case 0xCA: { // JMP Z, nn
-				int nn = memory[pc + 1] | (memory[pc + 2] << 8);
-				jump(Z, nn);
-				return 12;
-			}
-
-			case 0xD2: { // JMP NC, nn
-				int nn = memory[pc + 1] | (memory[pc + 2] << 8);
-				jump(NC, nn);
-				return 12;
-			}
-
-			case 0xDA: { // JMP C, nn
-				int nn = memory[pc + 1] | (memory[pc + 2] << 8);
-				jump(C, nn);
-				return 12;
-			}
-
-			case 0xE9: { // JMP (HL)
-				int nn = registerPair(REGISTER_H, REGISTER_L);
-				jump(nn);
-				return 4;
-			}
-
-			case 0x18: { // JR n
-				byte n = (byte) memory[pc + 1];
-				int nn = pc + n;
-				jump(nn);
-				return 8;
-			}
-			
-			// LOAD
-			case 0x7F: { //LD A, A
-				load(REGISTER_A, REGISTER_A);
-				return 4;
-			}
-			
-			case 0x7E: { //LD A, HL 
-				load(REGISTER_A, REGISTER_H, REGISTER_L);
-				return 8;
-			}
-			
-			// ADD
-			case 0x80: {
-				add(REGISTER_B);
-				return 4;
-			}
-			
-			case 0x81: {
-				add(REGISTER_C);
-				return 4;
-			}
-			case 0x87: { //ADD A,n
-				add(REGISTER_A);
-				return 4;
-			}
-
-			// RETURN
-			case 0xC9: { // RET
-				int nn = pop() | (pop() << 8);
-				jump(nn);
-				return 8;
-			}
-
-			default:
-				return 4;
-		}
+		IOpcode opcode = getOpcode();
+		opcode.execute(this);
+		return opcode.getCycleCount();
 	}
-	
-	/**
-	 * Adds the value from <tt>register[r]</tt> to {@link #REGISTER_A} and stores it into {@link #REGISTER_A}<br/>
-	 * {@link #FLAG_SUBTRACT} will be reset as we dont subtract<br/>
-	 * {@link #FLAG_HALF_CARRY} Will be set if half carry occurs<br/>
-	 * {@link #FLAG_CARRY} Will be set if full carry occurs<br/>
-	 * {@link #FLAG_ZERO} Will be set if the result is zero
-	 * @param r The register to add to {@link #REGISTER_A}
-	 */
-	private void add(int r) {
-		register[REGISTER_A] += register[r];
-		register[REGISTER_F] &= ~(1 << FLAG_SUBTRACT);
-		if(register[REGISTER_A] == 0) {
-			register[REGISTER_F] |= (1 << FLAG_ZERO);
+
+	private IOpcode getOpcode() {
+		switch (memory[pc]) {
+			case 0x00:
+				return new Opcode00NOP();
+				
+				default:
+					System.out.println("Unprocessed opcode " + Integer.toHexString(memory[pc]).toUpperCase() + ", Processing as NOP");
+					return new Opcode00NOP();
 		}
-		if(register[REGISTER_A] > 15) {
-			register[REGISTER_F] |= (1 << FLAG_HALF_CARRY);
-		}
-		if(register[REGISTER_A] > 255) {
-			register[REGISTER_F] |= (1 << FLAG_CARRY);
-		}
-	}
-	
-	/**
-	 * Puts the value into A
-	 * @param value The value to put into a
-	 */
-	private void load(int value) {
-		register[REGISTER_A] = (char)value;
-	}
-	
-	/**
-	 * Puts the value from combined register <tt>register[r2left << 8 | r2right]</tt> into <tt>register[r1]</tt>
-	 * @param r1 The register to put the value into 
-	 * @param r2left The register for the upper 8 bits of the value
-	 * @param r2right The register for the lower 8 bits of the value
-	 */
-	private void load(int r1, int r2left, int r2right) {
-		register[r1] = (char)registerPair(r2left, r2right);
-	}
-	
-	/**
-	 * Puts the value from <tt>register[r2]</tt> into <tt>register[r1]</tt>
-	 * @param r1 The register to put the value into
-	 * @param r2 The register to read the value from
-	 */
-	private void load(int r1, int r2) {
-		register[r1] = register[r2];
 	}
 
 	/**
@@ -308,39 +95,8 @@ public class Z80 {
 	 * @param rightRegister The index of the right byte (lower 8 bits) register
 	 * @return The 16 bit register value
 	 */
-	private int registerPair(int leftRegister, int rightRegister) {
+	public int registerPair(int leftRegister, int rightRegister) {
 		return (register[leftRegister] << 8) | register[rightRegister];
-	}
-
-	/**
-	 * Call a specific address<br/>
-	 * Stores the next operation on the stack
-	 * 
-	 * @param nn The address to jump to
-	 */
-	private void call(int nn) {
-		int newAddress = pc + 1;
-		push((byte) (newAddress >> 8));
-		push((byte) (newAddress));
-		jump(nn);
-	}
-
-	/**
-	 * Jumps to a given address if the condition is true<br/>
-	 * <br/>
-	 * The possible conditions:<br/>
-	 * cc = NZ, Jump if Z flag is reset.<br/>
-	 * cc = Z, Jump if Z flag is set.<br/>
-	 * cc = NC, Jump if C flag is reset.<br/>
-	 * cc = C, Jump if C flag is set.
-	 * 
-	 * @param cc Defines which condition we are being told to check
-	 * @param nn The location to jump to
-	 */
-	private void jump(int cc, int nn) {
-		if (passesCondition(cc)) {
-			jump(nn);
-		}
 	}
 
 	/**
@@ -353,47 +109,82 @@ public class Z80 {
 	 * @param cc
 	 * @return
 	 */
-	private boolean passesCondition(int cc) {
+	public boolean passesCondition(Condition cc) {
 		switch (cc) {
 			case NZ:
-				return (register[REGISTER_F] >>> FLAG_ZERO) == 0;
+				return (register[Register.F.index] >>> Flag.Zero.bit) == 0;
 			case Z:
-				return (register[REGISTER_F] >>> FLAG_ZERO) == 1;
+				return (register[Register.F.index] >>> Flag.Zero.bit) == 1;
 			case NC:
-				return (register[REGISTER_F] >>> FLAG_CARRY) == 0;
+				return (register[Register.F.index] >>> Flag.Carry.bit) == 0;
 			case C:
-				return (register[REGISTER_F] >>> FLAG_CARRY) == 1;
+				return (register[Register.F.index] >>> Flag.Carry.bit) == 1;
+				
+				default:
+					throw new RuntimeException("This Exception won't be thrown as all Condition are being checked");
 		}
-		throw new RuntimeException("Condition is not a valid condition: " + cc);
 	}
-
+	
 	/**
-	 * Jumps to the given address
-	 * 
-	 * @param nn The address to jump to
+	 * Gets the stack pointer
+	 * @return
 	 */
-	private void jump(int nn) {
-		pc = (char) nn;
+	public char getStackPointer() {
+		return sp;
 	}
-
+	
 	/**
-	 * Pops a byte from the stack
-	 * 
-	 * @return The next byte on the stack
+	 * Gets the program counter
+	 * @return
 	 */
-	private int pop() {
-		sp++;
-		return memory[sp];
+	public char getProgramCounter() {
+		return pc;
 	}
-
+	
 	/**
-	 * Pushes a byte onto the stack
-	 * 
-	 * @param n The byte to be pushed
+	 * Read data from the memory
+	 * @param address
+	 * @return
 	 */
-	private void push(byte n) {
-		memory[sp] = (char) n;
+	public char readMemory(int address) {
+		return memory[address];
+	}
+	
+	/**
+	 * Set the stackpointer
+	 * @param sp
+	 */
+	public void setStackPointer(char sp) {
+		this.sp = sp;
+	}
+	
+	/**
+	 * Set the program counter
+	 * @param pc
+	 */
+	public void setProgramCounter(char pc) {
+		this.pc = pc;
+	}
+	
+	/**
+	 * Write data to the memory
+	 * @param address
+	 * @param value
+	 */
+	public void writeMemory(int address, char value) {
+		memory[address] = value;
+	}
+	
+	public void incrementStackPointer() {
+		++sp;
+	}
+	
+	public void decrementStackPointer() {
 		--sp;
+	}
+	
+	public void incrementProgramCounter() {
+		++pc;
 	}
 
 	/**
