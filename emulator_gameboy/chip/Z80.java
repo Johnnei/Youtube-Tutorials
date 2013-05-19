@@ -82,31 +82,751 @@ public class Z80 {
 		switch (memory[pc]) {
 			case 0x00:
 				return new Opcode00NOP();
-				
+			case 0x01:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x02:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x03:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x04:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x05:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x06:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x07:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x08:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x09:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x0A:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x0B:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x0C:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x0D:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x0E:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x0F:
+				// TODO Implement opcode
+				return new Opcode00NOP();
 			case 0x10:
-				//16 Bit Opcode
-				
-				switch(memory[pc + 1]) {
-					case 0x00: //STOP
+				// 16 Bit Opcode
+
+				switch (memory[pc + 1]) {
+					case 0x00: // STOP
 						return new Opcode1000Stop();
-						
-						default:
-							throw new RuntimeException("Invalid ROM (0x10 Case) (0x" + Integer.toHexString(pc) + ")");
+
+					default:
+						throw new RuntimeException("Invalid ROM (0x10 Case) (0x" + Integer.toHexString(pc) + ")");
 				}
-				
+			case 0x11:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x12:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x13:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x14:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x15:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x16:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x17:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x18:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x19:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x1A:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x1B:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x1C:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x1D:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x1E:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x1F:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x20:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x21:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x22:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x23:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x24:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x25:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x26:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x27:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x28:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x29:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x2A:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x2B:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x2C:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x2D:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x2E:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x2F:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x30:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x31:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x32:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x33:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x34:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x35:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x36:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x37:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x38:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x39:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x3A:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x3B:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x3C:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x3D:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x3E:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x3F:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x40:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x41:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x42:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x43:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x44:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x45:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x46:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x47:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x48:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x49:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x4A:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x4B:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x4C:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x4D:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x4E:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x4F:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x50:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x51:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x52:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x53:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x54:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x55:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x56:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x57:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x58:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x59:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x5A:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x5B:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x5C:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x5D:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x5E:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x5F:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x60:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x61:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x62:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x63:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x64:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x65:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x66:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x67:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x68:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x69:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x6A:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x6B:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x6C:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x6D:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x6E:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x6F:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x70:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x71:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x72:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x73:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x74:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x75:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x76:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x77:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x78:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x79:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x7A:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x7B:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x7C:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x7D:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x7E:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x7F:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x80:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x81:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x82:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x83:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x84:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x85:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x86:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x87:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x88:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x89:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x8A:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x8B:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x8C:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x8D:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x8E:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x8F:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x90:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x91:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x92:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x93:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x94:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x95:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x96:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x97:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x98:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x99:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x9A:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x9B:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x9C:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x9D:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x9E:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0x9F:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0xA0:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0xA1:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0xA2:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0xA3:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0xA4:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0xA5:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0xA6:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0xA7:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0xA8:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0xA9:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0xAA:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0xAB:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0xAC:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0xAD:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0xAE:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0xAF:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0xB0:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0xB1:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0xB2:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0xB3:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0xB4:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0xB5:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0xB6:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0xB7:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0xB8:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0xB9:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0xBA:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0xBB:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0xBC:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0xBD:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0xBE:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0xBF:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0xC0:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0xC1:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0xC2:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0xC3:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0xC4:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0xC5:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0xC6:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0xC7:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0xC8:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0xC9:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0xCA:
+				// TODO Implement opcode
+				return new Opcode00NOP();
 			case 0xCB:
-				//16 Bit Opcode
-				
-				switch(memory[pc + 1]) {
-					//TODO Implement 0xCB Opcodes
+				// 16 Bit Opcode
+
+				switch (memory[pc + 1]) {
+				// TODO Implement 0xCB Opcodes
 				}
-				
+
 				throw new RuntimeException("Invalid ROM (0xCB Case) (0x" + Integer.toHexString(pc) + ")");
-				
-				
-				default:
-					System.out.println("Unprocessed opcode 0x" + Integer.toHexString(memory[pc]).toUpperCase() + ", Processing as NOP");
-					return new Opcode00NOP();
+			case 0xCC:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0xCD:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0xCE:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0xCF:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0xD0:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0xD1:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0xD2:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0xD4:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0xD5:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0xD6:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0xD7:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0xD8:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0xD9:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0xDA:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0xDC:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0xDF:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0xE0:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0xE1:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0xE2:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0xE5:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0xE6:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0xE7:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0xE8:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0xE9:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0xEA:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0xEE:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0xEF:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0xF0:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0xF1:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0xF2:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0xF3:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0xF5:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0xF6:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0xF7:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0xF8:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0xF9:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0xFA:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0xFB:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0xFE:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+			case 0xFF:
+				// TODO Implement opcode
+				return new Opcode00NOP();
+
+			default:
+				System.out.println("Unprocessed opcode 0x" + Integer.toHexString(memory[pc]).toUpperCase() + ", Processing as NOP");
+				return new Opcode00NOP();
 		}
 	}
 
@@ -141,70 +861,76 @@ public class Z80 {
 				return (register[Register.F.index] >>> Flag.Carry.bit) == 0;
 			case C:
 				return (register[Register.F.index] >>> Flag.Carry.bit) == 1;
-				
-				default:
-					throw new RuntimeException("This Exception won't be thrown as all Condition are being checked");
+
+			default:
+				throw new RuntimeException("This Exception won't be thrown as all Condition are being checked");
 		}
 	}
-	
+
 	/**
 	 * Gets the stack pointer
+	 * 
 	 * @return
 	 */
 	public char getStackPointer() {
 		return sp;
 	}
-	
+
 	/**
 	 * Gets the program counter
+	 * 
 	 * @return
 	 */
 	public char getProgramCounter() {
 		return pc;
 	}
-	
+
 	/**
 	 * Read data from the memory
+	 * 
 	 * @param address
 	 * @return
 	 */
 	public char readMemory(int address) {
 		return memory[address];
 	}
-	
+
 	/**
 	 * Set the stackpointer
+	 * 
 	 * @param sp
 	 */
 	public void setStackPointer(char sp) {
 		this.sp = sp;
 	}
-	
+
 	/**
 	 * Set the program counter
+	 * 
 	 * @param pc
 	 */
 	public void setProgramCounter(char pc) {
 		this.pc = pc;
 	}
-	
+
 	/**
 	 * Write data to the memory
+	 * 
 	 * @param address
 	 * @param value
 	 */
 	public void writeMemory(int address, char value) {
 		memory[address] = value;
 	}
-	
+
 	public void incrementStackPointer() {
 		++sp;
 	}
-	
+
 	public void decrementStackPointer() {
 		--sp;
 	}
-	
+
 	public void incrementProgramCounter() {
 		++pc;
 	}
