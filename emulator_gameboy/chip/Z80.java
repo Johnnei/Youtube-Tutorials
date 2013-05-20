@@ -7,7 +7,11 @@ import java.io.IOException;
 
 import chip.opcode.IOpcode;
 import chip.opcode.Opcode00NOP;
+import chip.opcode.Opcode01Load;
+import chip.opcode.Opcode02Load;
+import chip.opcode.Opcode0FRotateRight;
 import chip.opcode.Opcode1000Stop;
+import chip.opcode.Opcode1FRotateRight;
 
 public class Z80 {
 
@@ -87,11 +91,9 @@ public class Z80 {
 			case 0x00:
 				return new Opcode00NOP();
 			case 0x01:
-				// TODO Implement opcode
-				return new Opcode00NOP();
+				return new Opcode01Load();
 			case 0x02:
-				// TODO Implement opcode
-				return new Opcode00NOP();
+				return new Opcode02Load();
 			case 0x03:
 				// TODO Implement opcode
 				return new Opcode00NOP();
@@ -129,8 +131,7 @@ public class Z80 {
 				// TODO Implement opcode
 				return new Opcode00NOP();
 			case 0x0F:
-				// TODO Implement opcode
-				return new Opcode00NOP();
+				return new Opcode0FRotateRight();
 			case 0x10:
 				// 16 Bit Opcode
 
@@ -184,8 +185,7 @@ public class Z80 {
 				// TODO Implement opcode
 				return new Opcode00NOP();
 			case 0x1F:
-				// TODO Implement opcode
-				return new Opcode00NOP();
+				return new Opcode1FRotateRight();
 			case 0x20:
 				// TODO Implement opcode
 				return new Opcode00NOP();
@@ -841,8 +841,18 @@ public class Z80 {
 	 * @param rightRegister The index of the right byte (lower 8 bits) register
 	 * @return The 16 bit register value
 	 */
-	public int registerPair(Register leftRegister, Register rightRegister) {
+	public int getRegister(Register leftRegister, Register rightRegister) {
 		return (register[leftRegister.index] << 8) | register[rightRegister.index];
+	}
+	
+	/**
+	 * Gets the data from an eight bit register
+	 * 
+	 * @param register
+	 * @return
+	 */
+	public int getRegister(Register register) {
+		return this.register[register.index];
 	}
 
 	/**
@@ -898,6 +908,35 @@ public class Z80 {
 	public int readMemory(int address) {
 		return memory[address] & 0xFFFF;
 	}
+	
+	/**
+	 * Read 16bit data from the memory
+	 * @param address
+	 * @return
+	 */
+	public int readMemory16bit(int address) {
+		return ((memory[address] & 0xFF) << 8) + (memory[address] & 0xFF);
+	}
+	
+	/**
+	 * Writes an eight bit value into the register
+	 * @param register
+	 * @param value
+	 */
+	public void setRegister(Register register, int value) {
+		this.register[register.index] = (char)(value & 0xFF);
+	}
+	
+	/**
+	 * Writes an sixteen bit value into two registers
+	 * @param leftRegister The 8 MSB register
+	 * @param rightRegister The 8 LSB register
+	 * @param value
+	 */
+	public void setRegister(Register leftRegister, Register rightRegister, int value) {
+		register[leftRegister.index] = (char)((value >>> 8) & 0xFF);
+		register[leftRegister.index] = (char)(value & 0xFF);
+	}
 
 	/**
 	 * Set the stackpointer
@@ -915,6 +954,28 @@ public class Z80 {
 	 */
 	public void setProgramCounter(int pc) {
 		this.pc = (char)(pc & 0xFFFF);
+	}
+	
+	/**
+	 * Turns a single bit on or off in the flag register
+	 * @param flag
+	 * @param set true: set flag, false: reset flag
+	 */
+	public void setFlagRegister(Flag flag, boolean set) {
+		if(set) {
+			//Turn flag on
+			register[Register.F.index] |= 1 << flag.bit;
+		} else {
+			//Turn flag off
+			register[Register.F.index] &= ~(1 << flag.bit);  
+		}
+	}
+	
+	/**
+	 * Reset Flag Register
+	 */
+	public void resetFlagRegister() {
+		register[Register.F.index] = 0; 
 	}
 
 	/**

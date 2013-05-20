@@ -6,6 +6,7 @@ public class Opcode00NOP implements IOpcode {
 
 	@Override
 	public void execute(Z80 gba) {
+		gba.incrementProgramCounter();
 	}
 
 	@Override
