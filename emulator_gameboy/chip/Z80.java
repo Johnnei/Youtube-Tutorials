@@ -12,7 +12,7 @@ import chip.opcode.Opcode1000Stop;
 public class Z80 {
 
 	/**
-	 * The 144x160 pixel 4 colors display
+	 * The 160x144 pixel 4 colors display
 	 */
 	private byte[] display;
 	/**
@@ -60,7 +60,7 @@ public class Z80 {
 	 * Resets the Z80 processor
 	 */
 	public void reset() {
-		display = new byte[23040];
+		display = new byte[160 * 144];
 		memory = new char[65535];
 		register = new char[8];
 		pc = 0x100;
@@ -78,6 +78,10 @@ public class Z80 {
 		return opcode.getCycleCount();
 	}
 
+	/**
+	 * A big Factory-Method to create the correct Opcode for the current byte found in the memory at the current programcounter
+	 * @return The opcode to process
+	 */
 	private IOpcode getOpcode() {
 		switch (memory[pc]) {
 			case 0x00:
@@ -923,14 +927,23 @@ public class Z80 {
 		memory[address] = (char)(value & 0xFF);
 	}
 
+	/**
+	 * Increments the stackpointer by 1
+	 */
 	public void incrementStackPointer() {
 		++sp;
 	}
 
+	/**
+	 * Decrements the stack pointer by 1
+	 */
 	public void decrementStackPointer() {
 		--sp;
 	}
 
+	/**
+	 * Increments the program counter by 1
+	 */
 	public void incrementProgramCounter() {
 		++pc;
 	}
@@ -938,7 +951,7 @@ public class Z80 {
 	/**
 	 * Returns the display data
 	 * 
-	 * @return Current state of the 64x32 display
+	 * @return Current state of the 160x144 display
 	 */
 	public byte[] getDisplay() {
 		return display;

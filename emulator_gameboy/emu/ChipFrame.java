@@ -16,20 +16,24 @@ public class ChipFrame extends JFrame implements KeyListener {
 	private static final int KEY_RIGHT = 39;
 	private static final int KEY_DOWN = 40;
 	
+	public static final int WIDTH = 160;
+	public static final int HEIGHT = 144;
+	
 	private static final long serialVersionUID = 1L;
 	private ChipPanel panel;
 	private int[] keyBuffer;
 	private int[] keyIdToKey;
 
 	public ChipFrame(Z80 c) {
-		setPreferredSize(new Dimension(288, 320));
+		setPreferredSize(new Dimension(WIDTH * ChipPanel.SCALE, HEIGHT * ChipPanel.SCALE));
+		setResizable(false);
 		pack();
-		setPreferredSize(new Dimension(288 + getInsets().left + getInsets().right, 320 + getInsets().top + getInsets().bottom));
+		setPreferredSize(new Dimension(WIDTH * ChipPanel.SCALE + getInsets().left + getInsets().right, HEIGHT * ChipPanel.SCALE + getInsets().top + getInsets().bottom));
 		panel = new ChipPanel(c);
 		setLayout(new BorderLayout());
 		add(panel, BorderLayout.CENTER);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setTitle("Chip 8 Emulator");
+		setTitle("Gameboy Emulator");
 		pack();
 		setLocationRelativeTo(null);
 		setVisible(true);
