@@ -837,8 +837,8 @@ public class Z80 {
 	 * @param rightRegister The index of the right byte (lower 8 bits) register
 	 * @return The 16 bit register value
 	 */
-	public int registerPair(int leftRegister, int rightRegister) {
-		return (register[leftRegister] << 8) | register[rightRegister];
+	public int registerPair(Register leftRegister, Register rightRegister) {
+		return (register[leftRegister.index] << 8) | register[rightRegister.index];
 	}
 
 	/**
@@ -872,8 +872,8 @@ public class Z80 {
 	 * 
 	 * @return
 	 */
-	public char getStackPointer() {
-		return sp;
+	public int getStackPointer() {
+		return sp & 0xFFFF;
 	}
 
 	/**
@@ -881,8 +881,8 @@ public class Z80 {
 	 * 
 	 * @return
 	 */
-	public char getProgramCounter() {
-		return pc;
+	public int getProgramCounter() {
+		return pc & 0xFFFF;
 	}
 
 	/**
@@ -891,8 +891,8 @@ public class Z80 {
 	 * @param address
 	 * @return
 	 */
-	public char readMemory(int address) {
-		return memory[address];
+	public int readMemory(int address) {
+		return memory[address] & 0xFFFF;
 	}
 
 	/**
@@ -900,8 +900,8 @@ public class Z80 {
 	 * 
 	 * @param sp
 	 */
-	public void setStackPointer(char sp) {
-		this.sp = sp;
+	public void setStackPointer(int sp) {
+		this.sp = (char)(sp & 0xFFFF);
 	}
 
 	/**
@@ -909,8 +909,8 @@ public class Z80 {
 	 * 
 	 * @param pc
 	 */
-	public void setProgramCounter(char pc) {
-		this.pc = pc;
+	public void setProgramCounter(int pc) {
+		this.pc = (char)(pc & 0xFFFF);
 	}
 
 	/**
@@ -919,8 +919,8 @@ public class Z80 {
 	 * @param address
 	 * @param value
 	 */
-	public void writeMemory(int address, char value) {
-		memory[address] = value;
+	public void writeMemory(int address, int value) {
+		memory[address] = (char)(value & 0xFF);
 	}
 
 	public void incrementStackPointer() {
