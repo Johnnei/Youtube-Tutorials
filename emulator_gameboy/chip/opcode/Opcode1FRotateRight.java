@@ -11,9 +11,9 @@ public class Opcode1FRotateRight implements IOpcode {
 		int flagA = gba.getRegister(Register.A);
 		int bitZero = flagA & 0x1;
 		gba.resetFlagRegister();
-		gba.setFlagRegister(Flag.Carry, bitZero == 1);
 		flagA = flagA >>> 1;
-		flagA |= bitZero << 7;
+		flagA |= (gba.getRegister(Register.A) & 0x1) << 7;
+		gba.setFlagRegister(Flag.Carry, bitZero == 1);
 		gba.setFlagRegister(Flag.Zero, flagA == 0);
 		gba.setRegister(Register.A, flagA);
 	}
